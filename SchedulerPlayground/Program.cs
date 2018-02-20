@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static System.Console;
@@ -11,7 +8,7 @@ namespace SchedulerPlayground
 {
 	class Program
 	{
-		private static void Main(string[] args)
+		private static void Main()
 		{
 			var scheduler = new Scheduler(WaitThreeSecondsAsync);
 			WriteLine("Welcome to webplu scheduler playground. Press enter to start.");
@@ -24,7 +21,7 @@ namespace SchedulerPlayground
 			ReadLine();
 
 			scheduler.Stop();
-			WriteLine("Press 'R' key to restart the timer or anything else to close the program.");
+			WriteLine("Press 'R' key to restart the scheduler or anything else to close the program.");
 
 			var key = ReadKey();
 			if (key.Key == ConsoleKey.R)
