@@ -9,9 +9,9 @@ using SchedulerPlayground.Extensions;
 
 namespace SchedulerPlayground
 {
-	public sealed class AsyncScheduler : IDisposable
+	public sealed class Scheduler : IDisposable
 	{
-		private static readonly IScheduler Scheduler = System.Reactive.Concurrency.Scheduler.Default;
+		private static readonly IScheduler SystemDefaultScheduler = System.Reactive.Concurrency.Scheduler.Default;
 
 		private readonly Func<CancellationToken, Task> _asyncAction;
 		private readonly object _lock;
@@ -21,7 +21,7 @@ namespace SchedulerPlayground
 
 		/// <param name="asyncAction">The asynchronous and cancellable action to be scheduled for execution</param>
 		/// <exception cref="System.ArgumentNullException">Throws when parameter asyncAction is null</exception>
-		public AsyncScheduler(Func<CancellationToken, Task> asyncAction)
+		public Scheduler(Func<CancellationToken, Task> asyncAction)
 		{
 			_asyncAction = asyncAction ?? throw new ArgumentNullException(nameof(asyncAction));
 			_schedule = null;
@@ -52,7 +52,7 @@ namespace SchedulerPlayground
 
 			_cancellation = new CancellationTokenSource();
 
-			_schedule = Scheduler.ScheduleRecurringAction(
+			_schedule = SystemDefaultScheduler.ScheduleRecurringAction(
 				dueTimeMs,
 				periodMs,
 				_asyncAction,
